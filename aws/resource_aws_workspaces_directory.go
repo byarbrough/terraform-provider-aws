@@ -176,6 +176,11 @@ func resourceAwsWorkspacesDirectory() *schema.Resource {
 							Optional: true,
 							Default:  false,
 						},
+						"enable_work_docs": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default:  false,
+						},
 						"user_enabled_as_local_administrator": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -202,8 +207,8 @@ func resourceAwsWorkspacesDirectoryCreate(d *schema.ResourceData, meta interface
 
 	input := &workspaces.RegisterWorkspaceDirectoryInput{
 		DirectoryId:       aws.String(directoryID),
-		EnableSelfService: aws.Bool(false), // this is handled separately below
-		EnableWorkDocs:    aws.Bool(false),
+		EnableSelfService: aws.Bool(false), // handled below in self service permissions
+		EnableWorkDocs:    aws.Bool(false), // handled below in creation properties
 		Tenancy:           aws.String(workspaces.TenancyShared),
 		Tags:              tags.IgnoreAws().WorkspacesTags(),
 	}
@@ -549,6 +554,7 @@ func expandWorkspaceCreationProperties(properties []interface{}) *workspaces.Wor
 	result := &workspaces.WorkspaceCreationProperties{
 		EnableInternetAccess:            aws.Bool(p["enable_internet_access"].(bool)),
 		EnableMaintenanceMode:           aws.Bool(p["enable_maintenance_mode"].(bool)),
+		EnableWorkDocs:                  aws.Bool(p["enable_work_docs"].(bool)),
 		UserEnabledAsLocalAdministrator: aws.Bool(p["user_enabled_as_local_administrator"].(bool)),
 	}
 
@@ -647,6 +653,7 @@ func flattenWorkspaceCreationProperties(properties *workspaces.DefaultWorkspaceC
 			"default_ou":                          aws.StringValue(properties.DefaultOu),
 			"enable_internet_access":              aws.BoolValue(properties.EnableInternetAccess),
 			"enable_maintenance_mode":             aws.BoolValue(properties.EnableMaintenanceMode),
+			"enable_work_docs":                    aws.BoolValue(properties.EnableWorkDocs),
 			"user_enabled_as_local_administrator": aws.BoolValue(properties.UserEnabledAsLocalAdministrator),
 		},
 	}

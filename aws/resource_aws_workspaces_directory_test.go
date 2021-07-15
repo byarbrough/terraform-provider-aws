@@ -105,6 +105,7 @@ func TestAccAwsWorkspacesDirectory_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "workspace_creation_properties.0.default_ou", ""),
 					resource.TestCheckResourceAttr(resourceName, "workspace_creation_properties.0.enable_internet_access", "false"),
 					resource.TestCheckResourceAttr(resourceName, "workspace_creation_properties.0.enable_maintenance_mode", "true"),
+					resource.TestCheckResourceAttr(resourceName, "workspace_creation_properties.0.enable_work_docs", "false"),
 					resource.TestCheckResourceAttr(resourceName, "workspace_creation_properties.0.user_enabled_as_local_administrator", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "workspace_security_group_id"),
 				),
@@ -326,6 +327,7 @@ func TestAccAwsWorkspacesDirectory_workspaceCreationProperties(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "workspace_creation_properties.0.default_ou", "OU=AWS,DC=Workgroup,DC=Example,DC=com"),
 					resource.TestCheckResourceAttr(resourceName, "workspace_creation_properties.0.enable_internet_access", "true"),
 					resource.TestCheckResourceAttr(resourceName, "workspace_creation_properties.0.enable_maintenance_mode", "false"),
+					resource.TestCheckResourceAttr(resourceName, "workspace_creation_properties.0.enable_work_docs", "true"),
 					resource.TestCheckResourceAttr(resourceName, "workspace_creation_properties.0.user_enabled_as_local_administrator", "false"),
 				),
 			},
@@ -608,6 +610,7 @@ func TestExpandWorkspaceCreationProperties(t *testing.T) {
 					"default_ou":                          "OU=AWS,DC=Workgroup,DC=Example,DC=com",
 					"enable_internet_access":              true,
 					"enable_maintenance_mode":             true,
+					"enable_work_docs":                    true,
 					"user_enabled_as_local_administrator": true,
 				},
 			},
@@ -616,6 +619,7 @@ func TestExpandWorkspaceCreationProperties(t *testing.T) {
 				DefaultOu:                       aws.String("OU=AWS,DC=Workgroup,DC=Example,DC=com"),
 				EnableInternetAccess:            aws.Bool(true),
 				EnableMaintenanceMode:           aws.Bool(true),
+				EnableWorkDocs:                  aws.Bool(true),
 				UserEnabledAsLocalAdministrator: aws.Bool(true),
 			},
 		},
@@ -627,6 +631,7 @@ func TestExpandWorkspaceCreationProperties(t *testing.T) {
 					"default_ou":                          "",
 					"enable_internet_access":              true,
 					"enable_maintenance_mode":             true,
+					"enable_work_docs":                    true,
 					"user_enabled_as_local_administrator": true,
 				},
 			},
@@ -635,6 +640,7 @@ func TestExpandWorkspaceCreationProperties(t *testing.T) {
 				DefaultOu:                       nil,
 				EnableInternetAccess:            aws.Bool(true),
 				EnableMaintenanceMode:           aws.Bool(true),
+				EnableWorkDocs:                  aws.Bool(true),
 				UserEnabledAsLocalAdministrator: aws.Bool(true),
 			},
 		},
@@ -665,6 +671,7 @@ func TestFlattenWorkspaceCreationProperties(t *testing.T) {
 				DefaultOu:                       aws.String("OU=AWS,DC=Workgroup,DC=Example,DC=com"),
 				EnableInternetAccess:            aws.Bool(true),
 				EnableMaintenanceMode:           aws.Bool(true),
+				EnableWorkDocs:                  aws.Bool(true),
 				UserEnabledAsLocalAdministrator: aws.Bool(true),
 			},
 			expected: []interface{}{
@@ -673,6 +680,7 @@ func TestFlattenWorkspaceCreationProperties(t *testing.T) {
 					"default_ou":                          "OU=AWS,DC=Workgroup,DC=Example,DC=com",
 					"enable_internet_access":              true,
 					"enable_maintenance_mode":             true,
+					"enable_work_docs":                    true,
 					"user_enabled_as_local_administrator": true,
 				},
 			},
@@ -969,6 +977,7 @@ resource "aws_workspaces_directory" "main" {
     default_ou                          = "OU=AWS,DC=Workgroup,DC=Example,DC=com"
     enable_internet_access              = true
     enable_maintenance_mode             = false
+	enable_work_docs					= true
     user_enabled_as_local_administrator = false
   }
 
@@ -989,6 +998,7 @@ resource "aws_workspaces_directory" "main" {
   workspace_creation_properties {
     enable_internet_access              = true
     enable_maintenance_mode             = false
+	enable_work_docs					= false
     user_enabled_as_local_administrator = false
   }
 
@@ -1016,6 +1026,7 @@ resource "aws_workspaces_directory" "main" {
     default_ou                          = "OU=AWS,DC=Workgroup,DC=Example,DC=com"
     enable_internet_access              = true
     enable_maintenance_mode             = false
+	enable_work_docs					= false
     user_enabled_as_local_administrator = false
   }
 

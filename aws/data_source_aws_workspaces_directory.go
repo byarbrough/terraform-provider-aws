@@ -143,6 +143,10 @@ func dataSourceAwsWorkspacesDirectory() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"enable_work_docs": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"user_enabled_as_local_administrator": {
 							Type:     schema.TypeBool,
 							Computed: true,

@@ -57,6 +57,7 @@ func TestAccDataSourceAwsWorkspacesDirectory_basic(t *testing.T) {
 					resource.TestCheckResourceAttrPair(dataSourceName, "workspace_creation_properties.0.default_ou", resourceName, "workspace_creation_properties.0.default_ou"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "workspace_creation_properties.0.enable_internet_access", resourceName, "workspace_creation_properties.0.enable_internet_access"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "workspace_creation_properties.0.enable_maintenance_mode", resourceName, "workspace_creation_properties.0.enable_maintenance_mode"),
+					resource.TestCheckResourceAttrPair(dataSourceName, "workspace_creation_properties.0.enable_work_docs", resourceName, "workspace_creation_properties.0.enable_work_docs"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "workspace_creation_properties.0.user_enabled_as_local_administrator", resourceName, "workspace_creation_properties.0.user_enabled_as_local_administrator"),
 					resource.TestCheckResourceAttrPair(dataSourceName, "workspace_security_group_id", resourceName, "workspace_security_group_id"),
 				),
@@ -104,6 +105,7 @@ resource "aws_workspaces_directory" "test" {
     default_ou                          = "OU=AWS,DC=Workgroup,DC=Example,DC=com"
     enable_internet_access              = true
     enable_maintenance_mode             = false
+	enable_work_docs					= true
     user_enabled_as_local_administrator = false
   }
 
